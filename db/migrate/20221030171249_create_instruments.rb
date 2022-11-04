@@ -2,7 +2,7 @@ class CreateInstruments < ActiveRecord::Migration[7.0]
   def change
     create_table :instruments, id: :uuid do |t|
       t.string :case_id
-      t.string :instrument
+      t.string :instrument, null: false
       t.string :make
       t.string :model
       t.string :serial_number

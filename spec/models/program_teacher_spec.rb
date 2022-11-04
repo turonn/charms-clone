@@ -1,1 +1,11 @@
-require 'spec_helper'
+require 'rails_helper'
+
+RSpec.describe ProgramTeacher do
+  describe "validations" do    
+    context "when everything is correct" do
+      subject { build(:program_teachers) }
+
+      it { is_expected.to be_valid }
+    end
+  end
+end
