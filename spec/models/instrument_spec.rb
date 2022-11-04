@@ -13,5 +13,11 @@ RSpec.describe Instrument do
 
       it { is_expected.not_to be_valid }
     end
+
+    context 'without a program' do
+      subject { build(:instrument, program: nil) }
+
+      it { is_expected.not_to be_valid }
+    end
   end
 end
