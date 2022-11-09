@@ -17,7 +17,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_30_171249) do
 
   create_table "instruments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "case_id"
-    t.string "instrument"
+    t.string "instrument", null: false
     t.string "make"
     t.string "model"
     t.string "serial_number"
@@ -30,16 +30,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_30_171249) do
     t.index ["program_id"], name: "index_instruments_on_program_id"
   end
 
+  create_table "program_teachers", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "program_id", null: false
+    t.uuid "teacher_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["program_id"], name: "index_program_teachers_on_program_id"
+    t.index ["teacher_id"], name: "index_program_teachers_on_teacher_id"
+  end
+
   create_table "programs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "programs_teachers", id: false, force: :cascade do |t|
-    t.uuid "program_id", null: false
-    t.uuid "teacher_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

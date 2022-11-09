@@ -1,0 +1,47 @@
+class ProgramsController < ApplicationController
+  before_action :_set_program, only: [:update, :destroy]
+
+  def index
+    render json: _relevant_programs
+  end
+
+  def create
+    @program = Program.new(_program_params)
+
+    if @program.save
+      render json: @program
+    else
+      render json: 500
+    end
+  end
+
+  def update
+    if @program.update_attributes(_program_params)
+      render json: @program
+    else
+      render json: 500
+    end
+  end
+
+  def destroy
+    @program.destroy ? render json: 200 : render json: 500
+  end
+
+  private
+
+  # we'll need a way of limiting this in the future
+  def _relevant_programs
+    @programs = Programs.all
+  end
+
+  def _set_program
+    @program = Program.find(params[:id])
+  end
+
+  def _program_params
+    params.require(:program).permit(
+      :name,
+      :description
+    )
+  end
+end

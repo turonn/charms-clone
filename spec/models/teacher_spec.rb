@@ -7,5 +7,11 @@ RSpec.describe Teacher do
 
       it { is_expected.to be_valid }
     end
+
+    context 'without an email_address' do
+      subject { build(:teacher, email_address: nil) }
+
+      it { is_expected.not_to be_valid }
+    end
   end
 end

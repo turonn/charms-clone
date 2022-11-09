@@ -1,5 +1,3 @@
 Rails.application.routes.draw do
-  root "home#index"
-
-  resources :instruments
+  resources :instruments, only: [:create, :index, :update, :destroy]
 end

@@ -3,7 +3,7 @@ class Instrument < ApplicationRecord
   before_save :_nil_if_blank
 
   belongs_to :program
-  validates :instrument, presence: true
+  validates_presence_of :instrument, :program
 
   private
 

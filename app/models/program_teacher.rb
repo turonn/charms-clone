@@ -1,4 +1,6 @@
 class ProgramTeacher < ApplicationRecord
+  belongs_to :program
   belongs_to :teacher
-  belongs_to :progam
+
+  validates_presence_of :program, :teacher
 end

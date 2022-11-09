@@ -1,45 +1,36 @@
 class InstrumentsController < ApplicationController
-  before_action :_set_instrument, only: [:show, :edit, :update, :destroy]
-  before_action :_relevant_instruments, only: [:index]
+  before_action :_set_instrument, only: [:update, :destroy]
 
   def index
-  end
-
-  def show
-  end
-
-  def new
-    @instrument = Instrument.new
+    render json: _relevant_instruments
   end
 
   def create
     @instrument = Instrument.new(_instrument_params)
 
     if @instrument.save
-      redirect_to instruments_path, notice: "Instrument was successfully created."
+      render json: @instrument
     else
-      render :new, notice: "Instrument failed to be created."
+      render json: 500
     end
   end
 
-  def edit
-  end
-
   def update
-    if @instrument.update(_instrument_params)
-      redirect_to instruments_path, notice: "Instrument was successfully updated."
+    if @instrument.update_attributes(_instrument_params)
+      render json: @instrument
     else
-      render :edit
+      render json: 500
     end
   end
 
   def destroy
-    @instrument.destroy
-    redirect_to instruments_path, notice: "Instrument wdas successfully destroyed."
+    @instrument.destroy ? render json: 200 : render json: 500
   end
 
   private
 
+  # returns only the instruments for the given program
+  # need to determine if there is a better way to do this
   def _relevant_instruments
     @instruments = Instruments.where(program_id: params[:program_id])
   end
