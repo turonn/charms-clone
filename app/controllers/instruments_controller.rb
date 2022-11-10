@@ -2,7 +2,8 @@ class InstrumentsController < ApplicationController
   before_action :_set_instrument, only: [:update, :destroy]
 
   def index
-    render json: _relevant_instruments
+    instruments =  Instrument.all #_relevant_instruments
+    render json: {status: 'SUCCESS', message: 'instrumets loaded', data: instruments}, status: :ok
   end
 
   def create
