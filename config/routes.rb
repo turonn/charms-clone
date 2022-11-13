@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :instruments, only: [:create, :index, :update, :destroy]
-  resources :programs, only: [:create, :index, :update, :destroy]
-  resources :teachers, only: [:create, :index, :update, :destroy]
+  resources :instruments, only: %i[create show index update destroy]
+  resources :programs, only: %i[create show index update destroy]
+  resources :teachers, only: %i[create show index update destroy]
 end

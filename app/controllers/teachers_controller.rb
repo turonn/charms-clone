@@ -1,41 +1,52 @@
 class TeachersController < ApplicationController
-  before_action :_set_teacher, only: [:update, :destroy]
-
   def index
-    render json: _relevant_teachers
+    teachers = _relevant_teachers
+    render json: { status: 'SUCCESS', message: 'teachers loaded', data: teachers }, status: :ok
+  end
+
+  def show
+    teacher = Teacher.find(params[:id])
+    render json: { status: 'SUCCESS', message: 'teacher loaded', data: teacher }, status: :ok
   end
 
   def create
-    @teacher = Teacher.new(_teacher_params)
+    teacher = Teacher.new(_teacher_params)
 
-    if @teacher.save
-      render json: @teacher
+    if teacher.save
+      render json: { status: 'SUCCESS', message: 'teacher created', data: teacher }, status: :ok
     else
-      render json: 500
+      render json: { status: 'ERROR', message: 'teacher failed to create', data: teacher.errors },
+             status: :unprocessable_entitiy
     end
   end
 
   def update
-    if @teacher.update_attributes(_teacher_params)
-      render json: @teacher
+    teacher = Teacher.find(params[:id])
+
+    if teacher.update_attributes(_teacher_params)
+      render json: { status: 'SUCCESS', message: 'teacher updated', data: teacher }, status: :ok
     else
-      render json: 500
+      render json: { status: 'ERROR', message: 'teacher failed to update', data: teacher.errors },
+             status: :unprocessable_entitiy
     end
   end
 
   def destroy
-    @teacher.destroy ? render json: 200 : render json: 500
+    teacher = Teacher.find(params[:id])
+
+    if teacher.destroy
+      render json: { status: 'SUCCESS', message: 'teacher deleted', data: teacher }, status: :ok
+    else
+      render json: { status: 'ERROR', message: 'teacher not deleted', data: teacher.errors },
+             status: :unprocessable_entitiy
+    end
   end
 
   private
 
   # we'll need a way of limiting this in the future
   def _relevant_teachers
-    @teachers = Teachers.all
-  end
-
-  def _set_teacher
-    @teacher = Teacher.find(params[:id])
+    Teachers.all
   end
 
   def _teacher_params
